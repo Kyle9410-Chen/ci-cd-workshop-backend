@@ -38,6 +38,20 @@ curl http://localhost:8000/api/health
 
 容器啟動時會先執行 `alembic upgrade head`，再啟動 uvicorn。
 
+## CI/CD
+
+`.github/workflows/main.yml` 在每次 push（任何 branch）時執行 Lint 與 Test；只有 `main` 在兩者都通過後，才會 build image 並推到 Docker Hub，tag 為 `latest` 與 commit SHA。
+
+需要在 GitHub repo 的 **Settings → Secrets and variables → Actions** 設定：
+
+| 類型 | 名稱 | 內容 |
+|---|---|---|
+| Variable | `DOCKERHUB_USERNAME` | Docker Hub 帳號名稱 |
+| Secret | `DOCKERHUB_TOKEN` | Docker Hub 的 Personal Access Token（權限 Read & Write） |
+
+Image：`<DOCKERHUB_USERNAME>/ci-cd-workshop-backend`
+
+
 ## 環境變數
 
 | 名稱 | 預設值 | 說明 |
